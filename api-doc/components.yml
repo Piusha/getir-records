@@ -1,0 +1,102 @@
+paths:
+  /case-study:
+    post:
+      summary: getir Find Records
+      tags: 
+        - Records
+      description: >-
+        getir Find Records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                  example: "2016-01-20"
+                endDate:
+                  type: string
+                  example: "2016-01-20"
+                minCount:
+                  type: number
+                  example: 1000
+                maxCount:
+                  type: number
+                  example: 10000
+      responses:
+        '200':
+          $ref: '#/components/responses/recordResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '400':
+          $ref: '#/components/responses/RequestDataValidatonErrorResponses'
+        '401':
+          $ref: '#/components/responses/UnAuthorizedAccessMessage'     
+    
+components:
+  schemas:
+    RecordData:
+      properties:
+        key:
+          type: string
+          example: PVLFLSNw
+        createdAt:
+          type: string
+          example: "2016-12-30T04:51:57.295Z"
+        totalCount:
+          type: number
+          example: 4184
+
+          
+    ResponseWithErrors: 
+      properties: 
+        code:
+          type: string
+        message:
+          type: string
+        stack:
+          type: string
+          format: test error message
+      
+    
+            
+  responses:
+    RecordResponse:
+      description: List all records
+      content:
+        application/json:
+          schema:
+            code:
+              type: string
+            message:
+              type: string
+            type: array
+            items:
+              $ref: '#/components/schemas/RightFormat'
+    
+    
+    
+    NotFoundError:
+      description: Resource Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultErrorResponse'
+    
+    SuccessResponseWithMessage:
+      description: Success Message
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DefaultResponse'
+    
+    RequestDataValidatonErrorResponses:
+      description: Reqest Data Validation Error messages
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseWithErrors'
+    
+    

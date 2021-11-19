@@ -1,18 +1,18 @@
 const dotenv = require("dotenv");
 const path = require("path");
-const Joi = require('joi');
+const Joi = require("joi");
 
 dotenv.config({ path: path.join(__dirname, "../../.env") });
 
 const envSchema = Joi.object()
 	.keys({
-		API_VERSION:Joi.string().required(),
-        NODE_ENV: Joi.string()
+		APP_NAME: Joi.string().required(),
+		API_VERSION: Joi.string().required(),
+		NODE_ENV: Joi.string()
 			.valid("production", "development", "test")
 			.required(),
 		PORT: Joi.number().default(3000),
 		MONGODB_URL: Joi.string().required().description("Mongo DB url"),
-        
 	})
 	.unknown();
 
@@ -21,7 +21,8 @@ const { value: envVars, error } = envSchema
 	.validate(process.env);
 
 module.exports = {
-    api_version:envVars.API_VERSION,
+	app_name: envVars.APP_NAME,
+	api_version: envVars.API_VERSION,
 	env: envVars.NODE_ENV,
 	port: envVars.PORT,
 	mongoose: {
@@ -29,6 +30,6 @@ module.exports = {
 		options: {},
 	},
 	jwt: {
-		secret: envVars.JWT_SECRET
-	}
+		secret: envVars.JWT_SECRET,
+	},
 };
