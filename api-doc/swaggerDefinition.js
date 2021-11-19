@@ -15,6 +15,9 @@ const swaggerDefinition = {
     {
       url: `http://localhost:${config.port}/v1`,
     },
+    {
+      url: `https://getir-homework.herokuapp.com/v1`,
+    },
   ],
 };
 
